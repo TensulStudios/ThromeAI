@@ -64,7 +64,6 @@ module.exports = async function handler(req, res) {
         messages,
         parameters: { max_new_tokens: 512, temperature: 0.7 }
       });
-
       const reply = output?.choices?.[0]?.message?.content ?? null;
       if (!reply) return res.status(502).json({ error: 'No reply in HF response', raw: output });
 
