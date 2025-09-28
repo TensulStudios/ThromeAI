@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>Throme</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a202c;
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Tab Navigation - ThromeAI Style */
+        .tabs {
+            display: flex;
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 25px;
+            padding: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px 30px;
+            background: transparent;
+            border: none;
+            color: #a0aec0;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: #4fd1c7;
+            color: #1a202c;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(79, 209, 199, 0.3);
+        }
+
+        .tab:hover:not(.active) {
+            background: rgba(79, 209, 199, 0.1);
+            color: #4fd1c7;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section - ThromeAI Inspired */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #4fd1c7;
+            text-shadow: 0 0 30px rgba(79, 209, 199, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 30px rgba(79, 209, 199, 0.3); }
+            to { text-shadow: 0 0 40px rgba(79, 209, 199, 0.5), 0 0 60px rgba(79, 209, 199, 0.2); }
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #a0aec0;
+            font-weight: 400;
+        }
+
+        /* Quick Links Section */
+        .quick-links {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #e2e8f0;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .quick-link {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            padding: 25px 20px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(79, 209, 199, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .quick-link:hover::before {
+            left: 100%;
+        }
+
+        .download-button {
+            margin-left: 8px;
+            padding: 12px 16px;
+            font-size: 20px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            background: #4fd1c7;
+            color: #1a202c;
+            text-decoration: none;
+        }
+
+        .quick-link:hover {
+            transform: translateY(-5px);
+            border-color: #4fd1c7;
+            box-shadow: 0 10px 30px rgba(79, 209, 199, 0.2);
+            background: rgba(79, 209, 199, 0.05);
+        }
+
+        .quick-link img {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #1a202c;
+            padding: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .quick-link:hover img {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .quick-link span {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .feature-card {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4fd1c7, #38b2ac, #4fd1c7);
+            background-size: 200% 100%;
+            animation: shimmer 2s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(79, 209, 199, 0.3);
+            background: rgba(79, 209, 199, 0.03);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+            color: #4fd1c7;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #e2e8f0;
+        }
+
+        .feature-description {
+            color: #a0aec0;
+            line-height: 1.6;
+        }
+
+        /* Settings Page Styles - Updated to match ThromeAI */
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .settings-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .settings-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #4fd1c7;
+        }
+
+        .settings-subtitle {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+
+        .settings-section {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section-title-settings {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #e2e8f0;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #4a5568;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+
+        .setting-description {
+            color: #a0aec0;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #4a5568;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #4fd1c7;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(30px);
+        }
+
+        .save-btn {
+            background: #4fd1c7;
+            color: #1a202c;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto 0;
+            box-shadow: 0 8px 25px rgba(79, 209, 199, 0.3);
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(79, 209, 199, 0.4);
+            background: #38b2ac;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            .links-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(79, 209, 199, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 209, 199, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="index" class="tab-content active">
+            <div class="hero">
+                <h1 class="logo">Throme</h1>
+                <p class="tagline">Your powerful, customizable browser experience</p>
+            </div>
+            <div class="feature-card">
+                <h3 class="feature-title">Download</h3>
+                <p class="feature-description">Get Throme for Windows, Mac, or Linux.</p>  
+                <br>
+                <a class="download-button" href="./Throme.zip">Get Throme</a>
+            </div>
+            <div class="features">
+                <div class="feature-card">
+                    <span class="feature-icon">🛡️</span>
+                    <h3 class="feature-title">Private</h3>
+                    <p class="feature-description">With Throme, you can stay protected with built-in Anti-Analytics and auto-HaveIBeenPwned</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">✏️</span>
+                    <h3 class="feature-title">Customizable</h3>
+                    <p class="feature-description">You can toggle features on or off, either with Throme's Settings tab, or Extensions.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🤖</span>
+                    <h3 class="feature-title">Intergrated AI</h3>
+                    <p class="feature-description">Throme has a free, optional signup AI assistant to help you browse, or with anything!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
