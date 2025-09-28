@@ -74,6 +74,8 @@ module.exports = async function handler(req, res) {
       const output = await hf.textToImage({
         model: "black-forest-labs/FLUX.1-dev",
         inputs: prompt,
+        options: { wait_for_model: true },
+        parameters: { output_format: "b64_json" } 
       });
     
       // Check if the output contains data
