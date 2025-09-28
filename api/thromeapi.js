@@ -71,8 +71,18 @@ module.exports = async function handler(req, res) {
       result = { reply, history: updatedHistory };
 
     } else if (task === "image") {
-      const imageOutput = await hf.textToImage({ model: "black-forest-labs/FLUX.1-dev", inputs: prompt });
-      result = { image: imageOutput };
+      const output = await hf.textToImage({
+        model: "black-forest-labs/FLUX.1-dev",
+        inputs: prompt,
+      });
+    
+      // Check if the output contains data
+      // Most HF text-to-image models return an array of images in base64
+      const imageBase64 = output?.[0]?.image || output?.image || null;
+    
+      if (!imageBase64) return res.status(502).json({ error: 'No image returned', raw: output });
+    
+      result = { image: `data:image/png;base64,${imageBase64}` }
     } else if (task === "voice") {
       const audioOutput = await hf.textToSpeech({ model: "hexgrad/Kokoro-82M", inputs: prompt });
       result = { audio: audioOutput };
