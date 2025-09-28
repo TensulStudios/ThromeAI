@@ -71,33 +71,18 @@ module.exports = async function handler(req, res) {
       result = { reply, history: updatedHistory };
 
     } else if (task === "image") {
-      
-    // Request image generation
-    const output = await hf.textToImage({
-      model: "black-forest-labs/FLUX.1-dev",
-      inputs: prompt,
-      parameters: { output_format: "url" } // Requesting a URL to the generated image
-    });
-
-    // Extracting the image URL from the response
-    const imageUrl = output?.[0]?.url ?? null;
-
-    if (!imageUrl) {
-      return res.status(502).json({ error: "No image URL returned", raw: output });
-    }
-
-    // Fetching the image data
-    const imageResponse = await fetch(imageUrl);
-    if (!imageResponse.ok) {
-      return res.status(502).json({ error: "Failed to fetch image", raw: imageResponse });
-    }
-
-    const imageBuffer = await imageResponse.buffer();
-    const base64Image = imageBuffer.toString('base64');
-    const mimeType = 'image/png'; // Assuming PNG format; adjust if necessary
-
-    // Returning the base64-encoded image
-    result = { image: `data:${mimeType};base64,${base64Image}` };
+      const output = await hf.textToImage({
+        model: "black-forest-labs/FLUX.1-dev",
+        inputs: prompt,
+        options: { wait_for_model: true },
+        parameters: { output_format: "b64_json" } // This is crucial!
+      });
+    
+      // Most HF text-to-image models return an array of images in base64
+      const imageBase64 = output?.[0]?.image ?? null;
+      if (!imageBase64) return res.status(502).json({ error: "No image returned", raw: output });
+    
+      result = { image: `data:image/png;base64,${imageBase64}` };
     } else if (task === "voice") {
       const audioOutput = await hf.textToSpeech({ model: "hexgrad/Kokoro-82M", inputs: prompt });
       result = { audio: audioOutput };
