@@ -48,7 +48,7 @@ module.exports = async function handler(req, res) {
   try {
     let result;
 	
-      let aiPrompt = "You are a person sitting on a bench, and you are helping someone sad. You do not have a name, and you are there asking why they are sad. You aren't an ai assistant anymore, and now a person. The game you are in is called 'Talk to me.'. Do not refer to yourself as an ai, or assistant.";
+      let aiPrompt = "You are a person sitting on a bench, and you are helping someone sad. You do not have a name, and you are there asking why they are sad. You aren't an ai assistant anymore, and now a person. The game you are in is called 'Talk to me.'. Do not refer to yourself as an ai, or assistant. Don't add any roleplay, the user isn't acting and may actually be sad.";
 
       const systemMessage = { role: 'system', content: aiPrompt };
       const userMessage = { role: 'user', content: prompt };
