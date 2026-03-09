@@ -4,6 +4,10 @@ const HF_TOKEN = process.env.HF_ACCESS_TOKEN;
 if (!HF_TOKEN) {
   console.warn("HF_ACCESS_TOKEN not set in environment");
 }
+res.setHeader('Access-Control-Allow-Origin', '*');
+res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+if (req.method === 'OPTIONS') return res.status(200).end();
 
 const hf = HF_TOKEN ? new InferenceClient(HF_TOKEN) : null;
 
